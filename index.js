@@ -170,7 +170,7 @@ function displayEnergyPrices() {
 
         // Set color based on price range
         if (perKwh < 24) {
-          circleElement.style.backgroundColor = 'green';
+          circleElement.style.backgroundColor = 'limegreen';
         } else if (perKwh >= 24 && perKwh <= 38) {
           circleElement.style.backgroundColor = 'orange';
         } else {

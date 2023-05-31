@@ -91,7 +91,7 @@ input[type="checkbox"]:checked + .slider:before {
 .placeholder-box {
   width: 100px;
   background: #39487e;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   border-radius: 7px;
   box-shadow: 2px 2px 5px #232469;
 }
@@ -111,7 +111,7 @@ input[type="checkbox"]:checked + .slider:before {
 .placeholder-boxx {
   width: 100px;
   background: #39487e;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   border-radius: 7px;
   box-shadow: 2px 2px 5px #232469;
 }
@@ -124,7 +124,7 @@ input[type="checkbox"]:checked + .slider:before {
 }
 
 .placeholder-boxx:nth-child(2){
-  background-color:#29487e;
+  background: #39387e;
 }
 
 .circle-placeholder {

@@ -66,7 +66,7 @@ function updateWeatherData() {
 
         const temperature = hour.temp_c;
         const uv = hour.uv;
-        const text = hour.condition.text;
+        const text = hour.condition.text.toLowerCase();
         let icon;
 
         if (text.includes("rain") || text.includes("drizzle")) {

@@ -8,19 +8,19 @@ body {
   background: linear-gradient(#1e2669, #39487e);
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 5px;
+  margin-bottom: 5px;
   font-size: 1em;
 }
 
-#time {
+.focus-block {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+/*   align-items: center; */
   margin: 0;
   padding: 0;
-  height: 20%
-  font-size: 8vw;
+/*   height: 20%; */
+  font-size: 2.3vw;
 }
 
 .appliance {
@@ -89,52 +89,42 @@ input[type="checkbox"]:checked + .slider:before {
 }
 
 .placeholder-box {
-  width: 80px;
-  height: 100px;
-  border-radius: 3px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.placeholder-box:nth-child(4) {
-  margin-bottom: 0;
-}
-
-.placeholder-box {
   width: 100px;
-  height: 130px;
   background: #39487e;
-/*     box-shadow: 1px 1px 2px #39487e ; */
+  margin-bottom: 20px;
   border-radius: 7px;
   box-shadow: 2px 2px 5px #232469;
 }
+
+.placeholder-box p, .placeholder-boxx p{
+  margin: 3px;
+  padding: 3px;
+}
+
+.placeholder-box p:nth-child(1), .placeholder-boxx p:nth-child(1){
+  margin: 10px;
+  padding: 10px;
+}
+
+
 
 .placeholder-boxx {
   width: 100px;
-  height: 130px;
   background: #39487e;
+  margin-bottom: 20px;
   border-radius: 7px;
   box-shadow: 2px 2px 5px #232469;
 }
 
-.placeholder-boxx:nth-child(1){
-background: darkgrey;
-}
-
-.placeholder-boxx .placeholder-content {
+.placeholder-box .placeholder-content, .placeholder-boxx .placeholder-content {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
 }
 
-.placeholder-box .placeholder-content {
-  display: inline-block;
-  width: 100px;
-  text-align: center;
-  margin: 2px;
+.placeholder-boxx:nth-child(2){
+  background-color:#29487e;
 }
 
 .circle-placeholder {
@@ -147,27 +137,25 @@ background: darkgrey;
 /* Responsive Styles */
 @media screen and (max-width: 768px) {
   /* Adjust styles for screens up to 768px width */
-  #time {
-      font-size: 5vw;
+  .focus-block {
+      font-size: 3.3vw;
   }
 
   .placeholder-box,
   .placeholder-boxx {
       width: 80px;
-      height: 150px;
   }
 }
 
 @media screen and (max-width: 480px) {
   /* Adjust styles for screens up to 480px width */
-  #time {
-      font-size: 3.5vw;
+  .focus-block, * {
+      font-size: 3.3vw;
   }
 
   .placeholder-box,
   .placeholder-boxx {
-      width: 60px;
-      height: 150px;
+      width: 40px;
   }
 }
 
@@ -180,8 +168,9 @@ border-radius: 7px;
  margin: 5px;
 }
 
+
 .heading{
-text-align: center;
-margin: 0;
-padding: 0;
+  text-align: center;
+  margin: 0;
+  padding: 0;
 }

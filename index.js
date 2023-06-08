@@ -292,6 +292,7 @@ setTimeout(() => {
   updateWeatherData();
   displayCalenderEvents();
   fetchProjectData()
+  fetchNotes()
 }, millisecondsUntilNextInterval);
 
 
@@ -384,7 +385,6 @@ function addNotes(newNotes) {
       console.error("Error updating notes:", error);
     });
 }
-
 
 function deleteNoteFromAPI(noteToDelete) {
   // Fetch the notes array from the API

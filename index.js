@@ -438,7 +438,7 @@ function deleteNoteFromAPI(noteToDelete) {
 // Call the fetchNotes function to initiate the GET request
 fetchNotes();
 
-addNotes("hello");
+// addNotes("hello");
 
 
 const addButton = document.getElementById("addButton");

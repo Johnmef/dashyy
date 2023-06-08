@@ -55,7 +55,7 @@ function updateMillisecs(minutes) {
   const millisecondsUntilNextInterval =
     (minutesUntilNextInterval * 60 + secondsUntilNextInterval) * 1000;
 
-  return millisecondsUntilNextInterval;
+  return (millisecondsUntilNextInterval);
 }
 
 // This function get the data from weather api
@@ -201,6 +201,7 @@ function displayEnergyPrices() {
       console.log(`electricity prices updated at ${new Date().toLocaleTimeString()}`)
     })
     .catch(error => {
+    location.reload(true)
       console.error(error);
     });
 }
@@ -248,6 +249,7 @@ function displayCalendarEvents() {
       console.log(`Timetree events updated at ${new Date().toLocaleTimeString()}`)
     })
     .catch(error => {
+    location.reload(true)
       console.error(error);
     });
 }
@@ -268,6 +270,7 @@ async function fetchProjectData() {
     console.log(`Timetree events updated at ${new Date().toLocaleTimeString()}`)
 
   } catch (error) {
+    location.reload(true)
     console.error(error);
   }
 }
@@ -281,10 +284,169 @@ displayEnergyPrices();
 // Call the fetchProjectData function initially
 fetchProjectData();
 
+//passing arg in minutes
 const millisecondsUntilNextInterval = updateMillisecs(15);
 
 setTimeout(() => {
   displayEnergyPrices();
   updateWeatherData();
+  displayCalenderEvents();
+  fetchProjectData()
 }, millisecondsUntilNextInterval);
 
+
+
+
+//////////
+
+function fetchNotes() {
+  fetch("https://lightswitchapi.com/io/1dc0b46aa6ce4325b9b92f37b11835d8/switchapi/dev/switchapi")
+    .then(response => response.json())
+    .then(json => {
+      if (!json.success) {
+        throw new Error(json.message);
+      }
+      console.log(json);
+      const notes = JSON.parse(json.data.records[0].notes);
+      displayNotes(notes);
+    })
+    .catch(error => {
+      // handle error
+      console.error("Error fetching notes:", error);
+    });
+}
+
+function displayNotes(notes) {
+  const section = document.querySelector(".notes");
+
+  // Clear existing content
+  section.innerHTML = "";
+
+  // Create a new paragraph for each note
+  notes.forEach(note => {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = note;
+    section.appendChild(paragraph);
+
+    // Add click event listener to each note element
+    paragraph.addEventListener("dblclick", () => {
+      deleteNoteFromAPI(note); // Delete the clicked note
+    });
+  });
+}
+
+function addNotes(newNotes) {
+  // Retrieve existing notes
+  fetch("https://lightswitchapi.com/io/1dc0b46aa6ce4325b9b92f37b11835d8/switchapi/dev/switchapi")
+    .then(response => response.json())
+    .then(json => {
+      if (!json.success) {
+        throw new Error(json.message);
+      }
+
+      let existingNotesArray = [];
+      const existingNotesString = json.data.records[0].notes;
+
+      if (existingNotesString) {
+        existingNotesArray = JSON.parse(existingNotesString);
+      }
+
+      // Add new notes
+      const updatedNotesArray = existingNotesArray.concat(newNotes);
+
+      // Update the notes using PUT request
+      return fetch("https://lightswitchapi.com/io/1dc0b46aa6ce4325b9b92f37b11835d8/switchapi/dev/switchapi/1/", {
+        headers: {
+          "Content-type": "application/json"
+        },
+        method: "PUT",
+        body: JSON.stringify({
+          "name": "sample text",
+          "state": true,
+          "notes": JSON.stringify(updatedNotesArray)
+        })
+      });
+    })
+    .then(response => response.json())
+    .then(json => {
+      if (!json.success) {
+        throw new Error(json.message);
+      }
+
+      // Notes updated successfully
+      console.log("New notes added:", newNotes);
+
+      // Fetch the updated notes
+      fetchNotes();
+    })
+    .catch(error => {
+      // Handle error
+      console.error("Error updating notes:", error);
+    });
+}
+
+
+function deleteNoteFromAPI(noteToDelete) {
+  // Fetch the notes array from the API
+  fetch("https://lightswitchapi.com/io/1dc0b46aa6ce4325b9b92f37b11835d8/switchapi/dev/switchapi")
+    .then(response => response.json())
+    .then(json => {
+      if (!json.success)
+        throw new Error(json.message);
+
+      // Retrieve the notes array from the API response and parse it from a string to an array
+      const notes = JSON.parse(json.data.records[0].notes);
+
+      // Find the index of the note to delete
+      const index = notes.indexOf(noteToDelete);
+
+      // If the note is found, remove it from the array
+      if (index !== -1) {
+        notes.splice(index, 1);
+      }
+
+      // Convert the notes array back to a string before making the PUT request
+      const updatedNotes = JSON.stringify(notes);
+
+      // Make the PUT request to update the notes
+      return fetch("https://lightswitchapi.com/io/1dc0b46aa6ce4325b9b92f37b11835d8/switchapi/dev/switchapi/1/", {
+        headers: {
+          "Content-type": "application/json"
+        },
+        method: "PUT",
+        body: JSON.stringify({
+          "notes": updatedNotes
+        })
+      });
+    })
+    .then(response => response.json())
+    .then(json => {
+      if (!json.success) {
+        throw new Error(json.message);
+      }
+      console.log("Notes updated successfully!");
+
+      // Fetch the updated notes
+      fetchNotes();
+    })
+    .catch(error => {
+      // Handle error
+      console.log("Error updating notes:", error);
+    });
+}
+
+// Call the fetchNotes function to initiate the GET request
+fetchNotes();
+
+addNotes("hello");
+
+
+const addButton = document.getElementById("addButton");
+
+// Add click event listener to the add button
+addButton.addEventListener("click", () => {
+  const userInput = prompt("Enter your note:"); // Display a prompt for user input
+  if (userInput) {
+    addNotes(userInput.trim()); // Add the input as a new note
+  }
+});

@@ -1,7 +1,24 @@
 /* styles.css */
+.container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 130%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.content {
+  transform: scale(0.7); /* Adjust the scale factor as needed */
+  transform-origin: top left;
+  width: 100%; /* Adjust the width to fill the screen */
+  height: 100%; /* Adjust the height to fill the screen */
+  overflow: none;
+}
 body {
   background-color: lightgrey;
   color: white;
+  height: 150vh;
 }
 
 .section {
@@ -11,6 +28,7 @@ body {
   padding: 5px;
   margin-bottom: 5px;
   font-size: 1em;
+  width:100%;
 }
 
 .focus-block {
@@ -173,4 +191,10 @@ border-radius: 7px;
   text-align: center;
   margin: 0;
   padding: 0;
+}
+
+.top-heading{
+  display: flex;
+  justify-content: space-between;
+  
 }

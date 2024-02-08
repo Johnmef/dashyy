@@ -10,6 +10,11 @@ const amberKey = 'psk_636774e0461a10b3bcc960532f51afae';
 const amberSite = '01EWZ1KPMH2F981DW2HMJB2B27';
 const amberUrl = `https://api.amber.com.au/v1/sites/${amberSite}/prices/current?next=5&previous=1&resolution=30`
 
+// timetree
+const authorizationToken = 'Bearer dLeYbhJ6iwCwjuCOHydLg0iNoOvlx9dd2ywrkNA_mAFc6stu';
+const calendarId = 'DGgPowYJxy4h';
+const apiUrl = `https://timetreeapis.com/calendars/${calendarId}/upcoming_events?timezone=Asia/Tokyo&days=1&include=creator`;
+
 (function(){
 const timeElement = document.getElementById("time");
 const dryerButton = document.getElementById("dryer-button");
@@ -201,7 +206,55 @@ function displayEnergyPrices() {
     });
 }
 
-function fetchProjectData() {
+function displayCalendarEvents() {
+  const section4 = document.getElementById('section2');
+
+  fetch(apiUrl, {
+    headers: {
+      'Accept': 'application/vnd.timetree.v1+json',
+      'Authorization': authorizationToken
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      const events = data.data; // Array of events
+
+      // Create a div for each event and display the event details
+      events.forEach(event => {
+        const { title, start_at, end_at } = event.attributes;
+
+        // Create event details elements
+        const eventDiv = document.createElement('div');
+        eventDiv.classList.add('calender-events');
+        const titleElement = document.createElement('div');
+        const timeElement = document.createElement('div');
+        const startAtMelbourne = new Date(start_at).toLocaleString('en-AU', { timeZone: 'Australia/Melbourne' });
+        const start = startAtMelbourne.slice(11, 16) + startAtMelbourne.slice(19);
+        const endAtMelbourne = new Date(end_at).toLocaleString('en-AU', { timeZone: 'Australia/Melbourne' });
+        const end = endAtMelbourne.slice(11, 16) + endAtMelbourne.slice(19);
+
+        // Set event details
+        titleElement.textContent = title;
+        timeElement.textContent = `${start} - ${end}`;
+
+        // Append event details to event div
+        eventDiv.appendChild(titleElement);
+        eventDiv.appendChild(timeElement);
+
+        // Append event div to section 4
+        section4.appendChild(eventDiv);
+      });
+    
+      setInterval(displayEnergyPrices, 120 * 60 * 1000);
+      console.log(`Timetree events updated at ${new Date().toLocaleTimeString()}`)
+    })
+    .catch(error => {
+    location.reload(true)
+      console.error(error);
+    });
+}
+
+async function fetchProjectData() {
   try {
     const response = await fetch('https://projectzerothree.info/api.php?format=json');
     const data = await response.json();
@@ -222,6 +275,8 @@ function fetchProjectData() {
   }
 }
 
+// Call the displayCalendarEvents function initially
+displayCalendarEvents();
 // Call the updateWeatherData function initially
 updateWeatherData();
 // Call the displayEnergyPrices function initially
@@ -235,6 +290,9 @@ const millisecondsUntilNextInterval = updateMillisecs(15);
 setTimeout(() => {
   displayEnergyPrices();
   updateWeatherData();
+  displayCalenderEvents();
+  fetchProjectData()
+  fetchNotes()
 }, millisecondsUntilNextInterval);
 
 

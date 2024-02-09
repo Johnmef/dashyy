@@ -276,7 +276,7 @@ async function fetchProjectData() {
 }
 
 // Call the displayCalendarEvents function initially
-displayCalendarEvents();
+// displayCalendarEvents();
 // Call the updateWeatherData function initially
 updateWeatherData();
 // Call the displayEnergyPrices function initially
@@ -290,7 +290,7 @@ const millisecondsUntilNextInterval = updateMillisecs(15);
 setTimeout(() => {
   displayEnergyPrices();
   updateWeatherData();
-  displayCalenderEvents();
+  // displayCalenderEvents();
   fetchProjectData()
   fetchNotes()
 }, millisecondsUntilNextInterval);

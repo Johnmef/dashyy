@@ -135,13 +135,7 @@ function updateWeatherData() {
       const millisecondsUntilNextInterval = updateMillisecs(30);
 
     // Update the data every 30 minutes
-    setInterval(updateWeatherData, 30 * 60 * 1000);
-        console.log(`weather updated at ${new Date().toLocaleTimeString()}`)
- 
-    })
-    .catch(error => {
-      console.error(error);
-    });
+
 }
 
 // This function get the data from amber api
@@ -278,7 +272,7 @@ async function fetchProjectData() {
 // Call the displayCalendarEvents function initially
 // displayCalendarEvents();
 // Call the updateWeatherData function initially
-updateWeatherData();
+
 // Call the displayEnergyPrices function initially
 displayEnergyPrices();
 // Call the fetchProjectData function initially
@@ -289,7 +283,7 @@ const millisecondsUntilNextInterval = updateMillisecs(15);
 
 setTimeout(() => {
   displayEnergyPrices();
-  updateWeatherData();
+
   // displayCalenderEvents();
   fetchProjectData()
   fetchNotes()
